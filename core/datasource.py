@@ -224,14 +224,25 @@ def quote(secids):
         return []
     fields = "f1,f2,f3,f4,f5,f6,f7,f8,f9,f12,f13,f14,f15,f16,f17,f18,f20,f21,f62,f115,f152"
     path = "ulist.np/get?secids=%s&fltt=2&invt=2&fields=%s" % (",".join(ids), fields)
+    # 1) 东财实时节点  2) 腾讯实时行情  3) 东财延时节点
     try:
-        data = get_json_any(_push(path), ttl=3)
+        data = get_json_any([PUSH_HOSTS[0] + "/api/qt/" + path], ttl=3)
         rows = [_fmt_quote(d) for d in _diff(data)]
         if rows:
             return rows
     except Exception:
         pass
-    return _tx_quote(ids)
+    tx = _tx_quote(ids)
+    if tx:
+        return tx
+    try:
+        data = get_json_any([h + "/api/qt/" + path for h in PUSH_HOSTS[1:]], ttl=3)
+        rows = [_fmt_quote(d) for d in _diff(data)]
+        if rows:
+            return rows
+    except Exception:
+        pass
+    return []
 
 
 MARKET_INDEX = ["1.000001", "0.399001", "0.399006", "1.000688", "1.000300"]
@@ -243,7 +254,25 @@ def index_quotes():
     fields = "f1,f2,f3,f4,f6,f12,f13,f14"
     path = "ulist.np/get?secids=%s&fltt=2&invt=2&fields=%s" % (",".join(MARKET_INDEX), fields)
     try:
-        data = get_json_any(_push(path), ttl=5)
+        data = get_json_any([PUSH_HOSTS[0] + "/api/qt/" + path], ttl=5)
+        rows = _diff(data)
+        if rows:
+            out = []
+            for d in rows:
+                secid = "%s.%s" % (d.get("f13"), d.get("f12"))
+                out.append({
+                    "secid": secid,
+                    "name": INDEX_NAME.get(secid, d.get("f14", "")),
+                    "price": _num(d.get("f2")),
+                    "pct": _num(d.get("f3")),
+                    "change": _num(d.get("f4")),
+                    "amount": _num(d.get("f6")),
+                })
+            return out
+    except Exception:
+        pass
+    try:
+        data = get_json_any([h + "/api/qt/" + path for h in PUSH_HOSTS[1:]], ttl=5)
         rows = _diff(data)
         if rows:
             out = []
@@ -334,7 +363,32 @@ def trend(secid, ndays=1):
     path = ("stock/trends2/get?secid=%s&fields1=f1,f2,f3,f4,f5,f6,f7,f8"
             "&fields2=f51,f52,f53,f54,f55,f56,f57,f58&iscr=0&ndays=%d" % (secid, ndays))
     try:
-        data = get_json_any(_his(path), ttl=8)
+        # 1) 东财实时节点
+        data = get_json_any([HIS_HOSTS[0] + "/api/qt/" + path], ttl=8)
+        d = (data or {}).get("data") or {}
+        if d.get("trends"):
+            rows = []
+            for line in d["trends"]:
+                p = line.split(",")
+                if len(p) < 7:
+                    continue
+                rows.append({
+                    "t": p[0], "o": _num(p[1]), "c": _num(p[2]),
+                    "h": _num(p[3]), "l": _num(p[4]),
+                    "v": _num(p[5]), "amt": _num(p[6]),
+                    "avg": _num(p[7]) if len(p) > 7 else 0.0,
+                })
+            return {"rows": rows, "name": d.get("name", ""), "preClose": _num(d.get("preClose"))}
+    except Exception:
+        pass
+    # 2) 腾讯实时分时（仅当日）
+    if ndays == 1:
+        tx = _tx_trend(secid)
+        if tx.get("rows"):
+            return tx
+    # 3) 东财延时节点
+    try:
+        data = get_json_any([h + "/api/qt/" + path for h in HIS_HOSTS[1:]], ttl=8)
         d = (data or {}).get("data") or {}
         if d.get("trends"):
             rows = []
@@ -383,13 +437,13 @@ def _tx_trend(secid):
             "v": _num(p[2]), "amt": _num(p[3]) if len(p) > 3 else 0.0,
             "avg": 0.0,
         })
-    # 腾讯分时无均价，用累计成交额/累计成交量近似
+    # 腾讯分时无均价，用累计成交额 / 累计成交量近似（成交量单位为手）
     cum_v = 0.0
     cum_a = 0.0
     for r in rows:
         cum_v += r["v"]
         cum_a += r["amt"]
-        r["avg"] = (cum_a / cum_v) if cum_v else r["c"]
+        r["avg"] = (cum_a / (cum_v * 100)) if cum_v else r["c"]
     return {"rows": rows, "name": "", "preClose": pre}
 
 
