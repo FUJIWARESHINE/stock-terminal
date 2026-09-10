@@ -6,6 +6,12 @@ build/
 dist/
 data/
 
+# Android 构建产物
+android/build/
+android/.gradle/
+android/app/build/
+android/app/src/main/assets/
+
 # 本地调试 / 临时文件
 _*.py
 _*.ps1
