@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>QUANTA · 智能行情终端</title>
+<link rel="icon" type="image/x-icon" href="static/favicon.ico">
+<link rel="stylesheet" href="static/style.css">
+</head>
+<body>
+<div class="app">
+
+  <header class="topbar">
+    <div class="brand">
+      <div class="logo">Q</div>
+      <div>
+        <h1>QUANTA</h1>
+        <span>SMART MARKET TERMINAL</span>
+      </div>
+    </div>
+    <div class="index-tape" id="indexTape"></div>
+    <div class="top-right">
+      <div class="search-wrap">
+        <input id="globalSearch" placeholder="搜索股票 / 基金代码或名称" autocomplete="off">
+        <div class="suggest" id="suggest"></div>
+      </div>
+      <div class="clock" id="clock">--:--:--</div>
+    </div>
+  </header>
+
+  <nav class="tabs" id="tabs">
+    <button class="active" data-view="market">行情走势</button>
+    <button data-view="hot">热点资讯</button>
+    <button data-view="focus">自选聚焦</button>
+    <button data-view="fund">基金中心</button>
+  </nav>
+
+  <main>
+    <!-- ==================== 行情 ==================== -->
+    <section class="view active" id="view-market">
+      <div class="grid-market">
+        <div class="col">
+          <div class="panel" style="flex:1.25">
+            <div class="panel-head"><h3>自选聚焦</h3><span class="sub" id="wlCount">0 支</span></div>
+            <div class="panel-body tight"><div class="list" id="watchList"></div></div>
+          </div>
+          <div class="panel" style="flex:1">
+            <div class="panel-head">
+              <h3>涨幅榜</h3>
+              <div class="chips" id="rankChips">
+                <button class="chip active" data-sort="f3">涨幅</button>
+                <button class="chip" data-sort="f62">主力</button>
+              </div>
+            </div>
+            <div class="panel-body tight">
+              <table class="data">
+                <thead><tr><th>名称</th><th>最新</th><th>涨跌幅</th></tr></thead>
+                <tbody id="rankBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div class="col">
+          <div class="panel" style="flex:1">
+            <div class="quote-head" id="quoteHead">
+              <div>
+                <div class="qh-name"><span id="qhName">--</span><span class="qh-code" id="qhCode">--</span></div>
+                <div class="qh-price up" id="qhPrice">--</div>
+                <div class="qh-delta" id="qhDelta"><span>--</span><span>--</span></div>
+              </div>
+              <div class="qh-metrics" id="qhMetrics"></div>
+            </div>
+            <div class="panel-head" style="border-top:1px solid rgba(255,255,255,.05)">
+              <div class="chips" id="periodChips">
+                <button class="chip" data-p="trend">分时</button>
+                <button class="chip" data-p="trend5">5日</button>
+                <button class="chip active" data-p="day">日K</button>
+                <button class="chip" data-p="week">周K</button>
+                <button class="chip" data-p="month">月K</button>
+                <button class="chip" data-p="15">15分</button>
+                <button class="chip" data-p="30">30分</button>
+                <button class="chip" data-p="60">60分</button>
+              </div>
+              <div class="chips">
+                <button class="chip" id="favBtn">+ 加自选</button>
+              </div>
+            </div>
+            <div class="chart-main"><div id="mainChart" class="chart-box"></div></div>
+          </div>
+        </div>
+
+        <div class="col">
+          <div class="panel" style="flex:1">
+            <div class="panel-head">
+              <h3>热点板块</h3>
+              <div class="chips" id="plateKind">
+                <button class="chip active" data-kind="industry">行业</button>
+                <button class="chip" data-kind="concept">概念</button>
+              </div>
+            </div>
+            <div class="panel-body tight"><div class="list" id="plateList"></div></div>
+          </div>
+          <div class="panel" style="flex:1.15">
+            <div class="panel-head"><h3>财经快讯</h3><span class="sub" id="newsTime"></span></div>
+            <div class="panel-body" id="newsList"><div class="empty">加载中…</div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== 热点 ==================== -->
+    <section class="view" id="view-hot">
+      <div class="grid-hot">
+        <div class="col">
+          <div class="panel" style="flex:1.1">
+            <div class="panel-head">
+              <h3>板块热度</h3>
+              <div class="chips" id="hotPlateKind">
+                <button class="chip active" data-kind="industry">行业</button>
+                <button class="chip" data-kind="concept">概念</button>
+              </div>
+            </div>
+            <div class="chart-main"><div id="hotPlateChart" class="chart-box"></div></div>
+          </div>
+          <div class="panel" style="flex:1">
+            <div class="panel-head"><h3>主力资金流</h3><span class="sub">MAIN CAPITAL</span></div>
+            <div class="panel-body tight">
+              <table class="data">
+                <thead><tr><th>名称</th><th>最新</th><th>涨跌幅</th><th>主力净额</th></tr></thead>
+                <tbody id="flowBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div class="col">
+          <div class="panel" style="flex:1">
+            <div class="panel-head"><h3>龙虎榜单 · 涨幅 TOP</h3><span class="sub">TOP GAINERS</span></div>
+            <div class="panel-body tight">
+              <table class="data">
+                <thead><tr><th>名称</th><th>最新</th><th>涨跌幅</th><th>成交额</th></tr></thead>
+                <tbody id="hotRankBody"></tbody>
+              </table>
+            </div>
+          </div>
+          <div class="panel" style="flex:1">
+            <div class="panel-head"><h3>跌幅榜</h3><span class="sub">TOP LOSERS</span></div>
+            <div class="panel-body tight">
+              <table class="data">
+                <thead><tr><th>名称</th><th>最新</th><th>涨跌幅</th><th>成交额</th></tr></thead>
+                <tbody id="hotLoserBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div class="col">
+          <div class="panel" style="flex:1">
+            <div class="panel-head">
+              <h3>7×24 资讯流</h3>
+              <div class="chips" id="newsKind">
+                <button class="chip active" data-col="flash">快讯</button>
+                <button class="chip" data-col="yaowen">要闻</button>
+                <button class="chip" data-col="stock">股市</button>
+              </div>
+            </div>
+            <div class="panel-body" id="hotNewsList"><div class="empty">加载中…</div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== 聚焦 ==================== -->
+    <section class="view" id="view-focus">
+      <div class="col" style="height:100%">
+        <div class="panel" style="flex:0 0 auto">
+          <div class="panel-head">
+            <h3>我的聚焦池</h3>
+            <div style="display:flex;gap:8px;align-items:center">
+              <span class="sub" id="focusCount">0 支</span>
+              <button class="chip active" id="focusRefresh">实时刷新中</button>
+            </div>
+          </div>
+          <div class="panel-body tight"><div class="focus-grid" id="focusGrid"></div></div>
+        </div>
+        <div class="panel" style="flex:1">
+          <div class="panel-head">
+            <h3>走势对比（归一化收益）</h3>
+            <div class="chips" id="cmpRange">
+              <button class="chip" data-r="20">近1月</button>
+              <button class="chip active" data-r="60">近3月</button>
+              <button class="chip" data-r="120">近6月</button>
+              <button class="chip" data-r="250">近1年</button>
+            </div>
+          </div>
+          <div class="chart-main"><div id="cmpChart" class="chart-box"></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== 基金 ==================== -->
+    <section class="view" id="view-fund">
+      <div class="grid-fund">
+        <div class="col">
+          <div class="panel" style="flex:1">
+            <div class="panel-head"><h3>我的基金</h3><span class="sub" id="fundWlCount">0 支</span></div>
+            <div class="panel-body tight"><div class="list" id="fundWatchList"></div></div>
+          </div>
+          <div class="panel" style="flex:1.3">
+            <div class="panel-head">
+              <h3>基金排行</h3>
+              <div class="chips" id="fundRankKind">
+                <button class="chip active" data-k="all">全部</button>
+                <button class="chip" data-k="gp">股票型</button>
+                <button class="chip" data-k="hh">混合型</button>
+                <button class="chip" data-k="zq">债券型</button>
+                <button class="chip" data-k="zs">指数型</button>
+                <button class="chip" data-k="qdii">QDII</button>
+              </div>
+            </div>
+            <div class="panel-body tight">
+              <table class="data">
+                <thead><tr><th>基金名称</th><th>净值</th><th>日涨幅</th><th>近1年</th></tr></thead>
+                <tbody id="fundRankBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="panel" style="flex:1">
+            <div class="fund-head" id="fundHead">
+              <div class="fund-title" id="fundName">--</div>
+              <div class="fund-sub" id="fundSub">--</div>
+              <div class="kpi-grid" id="fundKpi"></div>
+            </div>
+            <div class="panel-head" style="border-top:1px solid rgba(255,255,255,.05)">
+              <div class="chips" id="fundNavRange">
+                <button class="chip" data-r="30">近1月</button>
+                <button class="chip" data-r="90">近3月</button>
+                <button class="chip active" data-r="180">近6月</button>
+                <button class="chip" data-r="365">近1年</button>
+                <button class="chip" data-r="0">成立以来</button>
+              </div>
+              <div class="chips"><button class="chip" id="fundFavBtn">+ 自选基金</button></div>
+            </div>
+            <div class="chart-main"><div id="fundChart" class="chart-box"></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<div class="toast" id="toast"></div>
+<script src="static/echarts.min.js"></script>
+<script src="static/app.js"></script>
+</body>
+</html>

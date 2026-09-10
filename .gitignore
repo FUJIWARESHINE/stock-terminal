@@ -1,0 +1,17 @@
+__pycache__/
+*.pyc
+*.pyo
+*.spec
+build/
+dist/
+data/
+
+# 本地调试 / 临时文件
+_*.py
+_*.ps1
+_token.txt
+_cred.txt
+
+.vscode/
+.idea/
+.DS_Store
