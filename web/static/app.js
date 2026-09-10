@@ -334,7 +334,7 @@
           const r = rows[ps[0].dataIndex];
           if (!r) return "";
           return `<b>${r.t}</b><br/>开 ${r.o.toFixed(2)}　高 ${r.h.toFixed(2)}<br/>低 ${r.l.toFixed(2)}　收 ${r.c.toFixed(2)}<br/>
-            <span style="color:${r.pct >= 0 ? UP : DOWN}">涨跌 ${pct(r.pct)}</span><br/>量 ${money(r.v)}手　额 ${money(r.amt)}`;
+            <span style="color:${r.pct >= 0 ? UP : DOWN}">涨跌 ${pct(r.pct)}</span><br/>量 ${money(r.v)}手　额 ${r.amt ? money(r.amt) : "--"}`;
         }
       },
       axisPointer: { link: [{ xAxisIndex: "all" }] },
