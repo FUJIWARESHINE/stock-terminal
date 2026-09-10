@@ -1,0 +1,785 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>QUANTA · 智能行情终端</title>
+<link rel="icon" type="image/x-icon" href="static/favicon.ico">
+<link rel="stylesheet" href="static/style.css">
+</head>
+<body>
+<div class="app">
+
+  <header class="topbar">
+    <div class="brand">
+      <div class="logo">Q</div>
+      <div>
+        <h1>QUANTA</h1>
+        <span>SMART MARKET TERMINAL</span>
+      </div>
+    </div>
+    <div class="index-tape" id="indexTape">
+      <div class="tape-item" data-secid="1.000001" style="cursor:pointer">
+        <span class="nm">上证指数</span>
+        <span class="pv down">3939.10</span>
+        <span class="pc down">-0.31%</span>
+      </div>
+      <div class="tape-item" data-secid="0.399001" style="cursor:pointer">
+        <span class="nm">深证成指</span>
+        <span class="pv down">13659.07</span>
+        <span class="pc down">-0.47%</span>
+      </div>
+      <div class="tape-item" data-secid="0.399006" style="cursor:pointer">
+        <span class="nm">创业板指</span>
+        <span class="pv down">3353.02</span>
+        <span class="pc down">-0.06%</span>
+      </div>
+      <div class="tape-item" data-secid="1.000688" style="cursor:pointer">
+        <span class="nm">科创50</span>
+        <span class="pv down">1577.73</span>
+        <span class="pc down">-0.15%</span>
+      </div>
+      <div class="tape-item" data-secid="1.000300" style="cursor:pointer">
+        <span class="nm">沪深300</span>
+        <span class="pv down">4557.86</span>
+        <span class="pc down">-0.32%</span>
+      </div></div>
+    <div class="top-right">
+      <div class="search-wrap">
+        <input id="globalSearch" placeholder="搜索股票 / 基金代码或名称" autocomplete="off">
+        <div class="suggest" id="suggest"></div>
+      </div>
+      <div class="clock" id="clock">10:33:08</div>
+    </div>
+  </header>
+
+  <nav class="tabs" id="tabs">
+    <button class="active" data-view="market">行情走势</button>
+    <button data-view="hot">热点资讯</button>
+    <button data-view="focus">自选聚焦</button>
+    <button data-view="fund">基金中心</button>
+  </nav>
+
+  <main>
+    <!-- ==================== 行情 ==================== -->
+    <section class="view active" id="view-market">
+      <div class="grid-market">
+        <div class="col">
+          <div class="panel" style="flex:1.25">
+            <div class="panel-head"><h3>自选聚焦</h3><span class="sub" id="wlCount">0 支</span></div>
+            <div class="panel-body tight"><div class="list" id="watchList"><div class="empty">暂无自选<br>用右上角搜索添加，或点击「+ 加自选」</div></div></div>
+          </div>
+          <div class="panel" style="flex:1">
+            <div class="panel-head">
+              <h3>涨幅榜</h3>
+              <div class="chips" id="rankChips">
+                <button class="chip active" data-sort="f3">涨幅</button>
+                <button class="chip" data-sort="f62">主力</button>
+              </div>
+            </div>
+            <div class="panel-body tight">
+              <table class="data">
+                <thead><tr><th>名称</th><th>最新</th><th>涨跌幅</th></tr></thead>
+                <tbody id="rankBody">
+      <tr data-secid="0.301689" data-name="N电科思" data-code="301689">
+        <td><span style="color:#ffb84d;font-family:var(--mono);margin-right:6px">1</span>N电科思</td>
+        <td class="num">53.810</td>
+        <td class="num up">+236.31%</td>
+      </tr>
+      <tr data-secid="0.920268" data-name="百迈科" data-code="920268">
+        <td><span style="color:#ffb84d;font-family:var(--mono);margin-right:6px">2</span>百迈科</td>
+        <td class="num">34.940</td>
+        <td class="num up">+29.99%</td>
+      </tr>
+      <tr data-secid="0.301176" data-name="逸豪新材" data-code="301176">
+        <td><span style="color:#ffb84d;font-family:var(--mono);margin-right:6px">3</span>逸豪新材</td>
+        <td class="num">58.800</td>
+        <td class="num up">+20.00%</td>
+      </tr>
+      <tr data-secid="0.300290" data-name="ST荣科" data-code="300290">
+        <td><span style="color:#7b8ba6;font-family:var(--mono);margin-right:6px">4</span>ST荣科</td>
+        <td class="num">7.090</td>
+        <td class="num up">+14.91%</td>
+      </tr>
+      <tr data-secid="0.300852" data-name="四会富仕" data-code="300852">
+        <td><span style="color:#7b8ba6;font-family:var(--mono);margin-right:6px">5</span>四会富仕</td>
+        <td class="num">66.140</td>
+        <td class="num up">+14.03%</td>
+      </tr>
+      <tr data-secid="0.300806" data-name="斯迪克" data-code="300806">
+        <td><span style="color:#7b8ba6;font-family:var(--mono);margin-right:6px">6</span>斯迪克</td>
+        <td class="num">54.800</td>
+        <td class="num up">+11.16%</td>
+      </tr>
+      <tr data-secid="1.600491" data-name="ST龙元" data-code="600491">
+        <td><span style="color:#7b8ba6;font-family:var(--mono);margin-right:6px">7</span>ST龙元</td>
+        <td class="num">1.730</td>
+        <td class="num up">+10.19%</td>
+      </tr>
+      <tr data-secid="0.002377" data-name="国创高新" data-code="002377">
+        <td><span style="color:#7b8ba6;font-family:var(--mono);margin-right:6px">8</span>国创高新</td>
+        <td class="num">3.470</td>
+        <td class="num up">+10.16%</td>
+      </tr>
+      <tr data-secid="0.002204" data-name="大连重工" data-code="002204">
+        <td><span style="color:#7b8ba6;font-family:var(--mono);margin-right:6px">9</span>大连重工</td>
+        <td class="num">5.890</td>
+        <td class="num up">+10.09%</td>
+      </tr>
+      <tr data-secid="0.000523" data-name="红棉股份" data-code="000523">
+        <td><span style="color:#7b8ba6;font-family:var(--mono);margin-right:6px">10</span>红棉股份</td>
+        <td class="num">4.800</td>
+        <td class="num up">+10.09%</td>
+      </tr>
+      <tr data-secid="1.600318" data-name="新力金融" data-code="600318">
+        <td><span style="color:#7b8ba6;font-family:var(--mono);margin-right:6px">11</span>新力金融</td>
+        <td class="num">8.090</td>
+        <td class="num up">+10.07%</td>
+      </tr>
+      <tr data-secid="1.600744" data-name="华银电力" data-code="600744">
+        <td><span style="color:#7b8ba6;font-family:var(--mono);margin-right:6px">12</span>华银电力</td>
+        <td class="num">7.000</td>
+        <td class="num up">+10.06%</td>
+      </tr>
+      <tr data-secid="1.600359" data-name="新农开发" data-code="600359">
+        <td><span style="color:#7b8ba6;font-family:var(--mono);margin-right:6px">13</span>新农开发</td>
+        <td class="num">9.640</td>
+        <td class="num up">+10.05%</td>
+      </tr>
+      <tr data-secid="0.002201" data-name="九鼎新材" data-code="002201">
+        <td><span style="color:#7b8ba6;font-family:var(--mono);margin-right:6px">14</span>九鼎新材</td>
+        <td class="num">10.080</td>
+        <td class="num up">+10.04%</td>
+      </tr>
+      <tr data-secid="0.002543" data-name="万和电气" data-code="002543">
+        <td><span style="color:#7b8ba6;font-family:var(--mono);margin-right:6px">15</span>万和电气</td>
+        <td class="num">7.900</td>
+        <td class="num up">+10.03%</td>
+      </tr>
+      <tr data-secid="0.000993" data-name="闽东电力" data-code="000993">
+        <td><span style="color:#7b8ba6;font-family:var(--mono);margin-right:6px">16</span>闽东电力</td>
+        <td class="num">12.620</td>
+        <td class="num up">+10.03%</td>
+      </tr>
+      <tr data-secid="1.600667" data-name="太极实业" data-code="600667">
+        <td><span style="color:#7b8ba6;font-family:var(--mono);margin-right:6px">17</span>太极实业</td>
+        <td class="num">19.980</td>
+        <td class="num up">+10.02%</td>
+      </tr>
+      <tr data-secid="0.002040" data-name="南 京 港" data-code="002040">
+        <td><span style="color:#7b8ba6;font-family:var(--mono);margin-right:6px">18</span>南 京 港</td>
+        <td class="num">10.980</td>
+        <td class="num up">+10.02%</td>
+      </tr>
+      <tr data-secid="1.600876" data-name="凯盛新能" data-code="600876">
+        <td><span style="color:#7b8ba6;font-family:var(--mono);margin-right:6px">19</span>凯盛新能</td>
+        <td class="num">7.910</td>
+        <td class="num up">+10.01%</td>
+      </tr>
+      <tr data-secid="0.000565" data-name="渝三峡Ａ" data-code="000565">
+        <td><span style="color:#7b8ba6;font-family:var(--mono);margin-right:6px">20</span>渝三峡Ａ</td>
+        <td class="num">7.910</td>
+        <td class="num up">+10.01%</td>
+      </tr></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div class="col">
+          <div class="panel" style="flex:1">
+            <div class="quote-head" id="quoteHead">
+              <div>
+                <div class="qh-name"><span id="qhName">上证指数</span><span class="qh-code" id="qhCode">000001</span></div>
+                <div class="qh-price down" id="qhPrice">3939.10</div>
+                <div class="qh-delta" id="qhDelta">
+      <span class="down">-12.41</span>
+      <span class="down">-0.31%</span></div>
+              </div>
+              <div class="qh-metrics" id="qhMetrics"><div><span>今开</span><b>3939.09</b></div><div><span>最高</span><b>3946.58</b></div><div><span>最低</span><b>3927.35</b></div><div><span>昨收</span><b>3951.51</b></div><div><span>振幅</span><b>0.49%</b></div><div><span>换手</span><b>0.52%</b></div><div><span>成交量</span><b>2.53亿手</b></div><div><span>成交额</span><b>4020.77亿</b></div><div><span>主力净额</span><b>-77.16亿</b></div><div><span>总市值</span><b>696765.13亿</b></div></div>
+            </div>
+            <div class="panel-head" style="border-top:1px solid rgba(255,255,255,.05)">
+              <div class="chips" id="periodChips">
+                <button class="chip" data-p="trend">分时</button>
+                <button class="chip" data-p="trend5">5日</button>
+                <button class="chip active" data-p="day">日K</button>
+                <button class="chip" data-p="week">周K</button>
+                <button class="chip" data-p="month">月K</button>
+                <button class="chip" data-p="15">15分</button>
+                <button class="chip" data-p="30">30分</button>
+                <button class="chip" data-p="60">60分</button>
+              </div>
+              <div class="chips">
+                <button class="chip" id="favBtn">+ 加自选</button>
+              </div>
+            </div>
+            <div class="chart-main"><div id="mainChart" class="chart-box" _echarts_instance_="ec_1789007563475" style="user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);"><div style="position: relative; width: 726px; height: 320px; padding: 0px; margin: 0px; border-width: 0px;"><canvas data-zr-dom-id="zr_0" width="726" height="320" style="position: absolute; left: 0px; top: 0px; width: 726px; height: 320px; user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0); padding: 0px; margin: 0px; border-width: 0px;"></canvas></div></div></div>
+          </div>
+        </div>
+
+        <div class="col">
+          <div class="panel" style="flex:1">
+            <div class="panel-head">
+              <h3>热点板块</h3>
+              <div class="chips" id="plateKind">
+                <button class="chip active" data-kind="industry">行业</button>
+                <button class="chip" data-kind="concept">概念</button>
+              </div>
+            </div>
+            <div class="panel-body tight"><div class="list" id="plateList">
+      <div class="row" data-secid="90.BK1452" style="grid-template-columns:1fr 54px 62px">
+        <div>
+          <div class="nm">卫浴电器</div>
+          <div class="cd">领涨 -- </div>
+          <div class="bar-wrap" style="margin-top:4px">
+            <i style="width:100%;background:linear-gradient(90deg,#ff4d4f,rgba(255,255,255,.1))"></i>
+          </div>
+        </div>
+        <div class="num up">+6.38%</div>
+        <div class="num up">2.70亿</div>
+      </div>
+      <div class="row" data-secid="90.BK1462" style="grid-template-columns:1fr 54px 62px">
+        <div>
+          <div class="nm">玻纤制造</div>
+          <div class="cd">领涨 -- </div>
+          <div class="bar-wrap" style="margin-top:4px">
+            <i style="width:67.86833855799374%;background:linear-gradient(90deg,#ff4d4f,rgba(255,255,255,.1))"></i>
+          </div>
+        </div>
+        <div class="num up">+4.33%</div>
+        <div class="num up">11.11亿</div>
+      </div>
+      <div class="row" data-secid="90.BK1340" style="grid-template-columns:1fr 54px 62px">
+        <div>
+          <div class="nm">印制电路板</div>
+          <div class="cd">领涨 -- </div>
+          <div class="bar-wrap" style="margin-top:4px">
+            <i style="width:57.52351097178683%;background:linear-gradient(90deg,#ff4d4f,rgba(255,255,255,.1))"></i>
+          </div>
+        </div>
+        <div class="num up">+3.67%</div>
+        <div class="num up">26.84亿</div>
+      </div>
+      <div class="row" data-secid="90.BK0459" style="grid-template-columns:1fr 54px 62px">
+        <div>
+          <div class="nm">元件</div>
+          <div class="cd">领涨 -- </div>
+          <div class="bar-wrap" style="margin-top:4px">
+            <i style="width:44.5141065830721%;background:linear-gradient(90deg,#ff4d4f,rgba(255,255,255,.1))"></i>
+          </div>
+        </div>
+        <div class="num up">+2.84%</div>
+        <div class="num up">25.04亿</div>
+      </div>
+      <div class="row" data-secid="90.BK0546" style="grid-template-columns:1fr 54px 62px">
+        <div>
+          <div class="nm">玻璃玻纤</div>
+          <div class="cd">领涨 -- </div>
+          <div class="bar-wrap" style="margin-top:4px">
+            <i style="width:43.573667711598745%;background:linear-gradient(90deg,#ff4d4f,rgba(255,255,255,.1))"></i>
+          </div>
+        </div>
+        <div class="num up">+2.78%</div>
+        <div class="num up">11.40亿</div>
+      </div>
+      <div class="row" data-secid="90.BK1380" style="grid-template-columns:1fr 54px 62px">
+        <div>
+          <div class="nm">水力发电</div>
+          <div class="cd">领涨 -- </div>
+          <div class="bar-wrap" style="margin-top:4px">
+            <i style="width:27.27272727272727%;background:linear-gradient(90deg,#ff4d4f,rgba(255,255,255,.1))"></i>
+          </div>
+        </div>
+        <div class="num up">+1.74%</div>
+        <div class="num up">1.41亿</div>
+      </div>
+      <div class="row" data-secid="90.BK1240" style="grid-template-columns:1fr 54px 62px">
+        <div>
+          <div class="nm">厨卫电器</div>
+          <div class="cd">领涨 -- </div>
+          <div class="bar-wrap" style="margin-top:4px">
+            <i style="width:26.64576802507837%;background:linear-gradient(90deg,#ff4d4f,rgba(255,255,255,.1))"></i>
+          </div>
+        </div>
+        <div class="num up">+1.70%</div>
+        <div class="num up">2.64亿</div>
+      </div>
+      <div class="row" data-secid="90.BK1383" style="grid-template-columns:1fr 54px 62px">
+        <div>
+          <div class="nm">航海装备Ⅲ</div>
+          <div class="cd">领涨 -- </div>
+          <div class="bar-wrap" style="margin-top:4px">
+            <i style="width:25.078369905956116%;background:linear-gradient(90deg,#ff4d4f,rgba(255,255,255,.1))"></i>
+          </div>
+        </div>
+        <div class="num up">+1.60%</div>
+        <div class="num up">3.79亿</div>
+      </div>
+      <div class="row" data-secid="90.BK1230" style="grid-template-columns:1fr 54px 62px">
+        <div>
+          <div class="nm">航海装备Ⅱ</div>
+          <div class="cd">领涨 -- </div>
+          <div class="bar-wrap" style="margin-top:4px">
+            <i style="width:25.078369905956116%;background:linear-gradient(90deg,#ff4d4f,rgba(255,255,255,.1))"></i>
+          </div>
+        </div>
+        <div class="num up">+1.60%</div>
+        <div class="num up">3.79亿</div>
+      </div>
+      <div class="row" data-secid="90.BK1506" style="grid-template-columns:1fr 54px 62px">
+        <div>
+          <div class="nm">农业综合Ⅲ</div>
+          <div class="cd">领涨 -- </div>
+          <div class="bar-wrap" style="margin-top:4px">
+            <i style="width:23.667711598746084%;background:linear-gradient(90deg,#ff4d4f,rgba(255,255,255,.1))"></i>
+          </div>
+        </div>
+        <div class="num up">+1.51%</div>
+        <div class="num up">4116.01万</div>
+      </div>
+      <div class="row" data-secid="90.BK1257" style="grid-template-columns:1fr 54px 62px">
+        <div>
+          <div class="nm">农业综合Ⅱ</div>
+          <div class="cd">领涨 -- </div>
+          <div class="bar-wrap" style="margin-top:4px">
+            <i style="width:23.667711598746084%;background:linear-gradient(90deg,#ff4d4f,rgba(255,255,255,.1))"></i>
+          </div>
+        </div>
+        <div class="num up">+1.51%</div>
+        <div class="num up">4116.01万</div>
+      </div>
+      <div class="row" data-secid="90.BK1609" style="grid-template-columns:1fr 54px 62px">
+        <div>
+          <div class="nm">城商行Ⅲ</div>
+          <div class="cd">领涨 -- </div>
+          <div class="bar-wrap" style="margin-top:4px">
+            <i style="width:23.510971786833856%;background:linear-gradient(90deg,#ff4d4f,rgba(255,255,255,.1))"></i>
+          </div>
+        </div>
+        <div class="num up">+1.50%</div>
+        <div class="num up">2.33亿</div>
+      </div>
+      <div class="row" data-secid="90.BK1461" style="grid-template-columns:1fr 54px 62px">
+        <div>
+          <div class="nm">玻璃制造</div>
+          <div class="cd">领涨 -- </div>
+          <div class="bar-wrap" style="margin-top:4px">
+            <i style="width:21.786833855799372%;background:linear-gradient(90deg,#ff4d4f,rgba(255,255,255,.1))"></i>
+          </div>
+        </div>
+        <div class="num up">+1.39%</div>
+        <div class="num up">2918.23万</div>
+      </div>
+      <div class="row" data-secid="90.BK1361" style="grid-template-columns:1fr 54px 62px">
+        <div>
+          <div class="nm">期货</div>
+          <div class="cd">领涨 -- </div>
+          <div class="bar-wrap" style="margin-top:4px">
+            <i style="width:21.15987460815047%;background:linear-gradient(90deg,#ff4d4f,rgba(255,255,255,.1))"></i>
+          </div>
+        </div>
+        <div class="num up">+1.35%</div>
+        <div class="num up">3445.27万</div>
+      </div>
+      <div class="row" data-secid="90.BK1359" style="grid-template-columns:1fr 54px 62px">
+        <div>
+          <div class="nm">金融控股</div>
+          <div class="cd">领涨 -- </div>
+          <div class="bar-wrap" style="margin-top:4px">
+            <i style="width:20.846394984326018%;background:linear-gradient(90deg,#ff4d4f,rgba(255,255,255,.1))"></i>
+          </div>
+        </div>
+        <div class="num up">+1.33%</div>
+        <div class="num up">8508.36万</div>
+      </div>
+      <div class="row" data-secid="90.BK1328" style="grid-template-columns:1fr 54px 62px">
+        <div>
+          <div class="nm">集成电路封测</div>
+          <div class="cd">领涨 -- </div>
+          <div class="bar-wrap" style="margin-top:4px">
+            <i style="width:20.53291536050157%;background:linear-gradient(90deg,#ff4d4f,rgba(255,255,255,.1))"></i>
+          </div>
+        </div>
+        <div class="num up">+1.31%</div>
+        <div class="num up">1.38亿</div>
+      </div>
+      <div class="row" data-secid="90.BK1283" style="grid-template-columns:1fr 54px 62px">
+        <div>
+          <div class="nm">银行</div>
+          <div class="cd">领涨 -- </div>
+          <div class="bar-wrap" style="margin-top:4px">
+            <i style="width:18.025078369905955%;background:linear-gradient(90deg,#ff4d4f,rgba(255,255,255,.1))"></i>
+          </div>
+        </div>
+        <div class="num up">+1.15%</div>
+        <div class="num up">3.01亿</div>
+      </div>
+      <div class="row" data-secid="90.BK0475" style="grid-template-columns:1fr 54px 62px">
+        <div>
+          <div class="nm">银行Ⅱ</div>
+          <div class="cd">领涨 -- </div>
+          <div class="bar-wrap" style="margin-top:4px">
+            <i style="width:18.025078369905955%;background:linear-gradient(90deg,#ff4d4f,rgba(255,255,255,.1))"></i>
+          </div>
+        </div>
+        <div class="num up">+1.15%</div>
+        <div class="num up">3.01亿</div>
+      </div></div></div>
+          </div>
+          <div class="panel" style="flex:1.15">
+            <div class="panel-head"><h3>财经快讯</h3><span class="sub" id="newsTime">10:32:43</span></div>
+            <div class="panel-body" id="newsList">
+      <div class="news-item" data-url="http://finance.eastmoney.com/a/202609103870361742.html">
+        <div class="t">蚂蚁集团入股具身智能公司戴盟机器人</div>
+        <div class="s">【蚂蚁集团入股具身智能公司戴盟机器人】企查查APP显示，近日，戴盟（深圳）机器人科技有限公司发生工商变更，新增蚂蚁科技集团股份有限公司全资子公司上海云玚企业管理咨询有限公司为股东，同时注册资本增至209.17万元。企查查信息显示，该公司成立于2021年，经营范围包含：智能机器人的研发；智能机器人销售；物联网应用服务；人工智能应用软件开发；人工智能基础软件开发等。</div>
+        <div class="m"><span>东方财富</span><span>09-10 10:28</span></div>
+      </div>
+      <div class="news-item" data-url="http://finance.eastmoney.com/a/202609103870359850.html">
+        <div class="t">宇树科技股价跌破500元 再创新低 市值较高点跌超2400亿</div>
+        <div class="s">【宇树科技股价跌破500元 再创新低 市值较高点跌超2400亿】10日，宇树科技股价早盘持续下挫，跌破500元，创上市以来新低。截至发稿，报499.97元，跌超2.7%。总市值2022亿元，较上市首日最高点（4449亿）跌超2400亿元。</div>
+        <div class="m"><span>东方财富</span><span>09-10 10:27</span></div>
+      </div>
+      <div class="news-item" data-url="http://finance.eastmoney.com/a/202609103870363292.html">
+        <div class="t">TrendForce：台积电晶圆代工全球市占率达到创纪录的72.5%</div>
+        <div class="s">【TrendForce：台积电晶圆代工全球市占率达到创纪录的72.5%】市场研究机构集邦科技(TrendForce)称，台积电进一步巩固了在全球晶圆代工市场的领先优势，第二季度市占率升至创纪录的72.5%，高于第一季度的72.3%。集邦科技表示，台积电受益于当前人工智能热潮，先进的3纳米和5纳米制程产能满载，以满足AI芯片需求。出货量增加以及平均价格上升，也帮助巩固了台积电的市场领先地位。三星电子第二季度以5.9%的市占率排名第二，中芯国际以5.4%位居第三。</div>
+        <div class="m"><span>东方财富</span><span>09-10 10:27</span></div>
+      </div>
+      <div class="news-item" data-url="http://finance.eastmoney.com/a/202609103870357558.html">
+        <div class="t">ST海王等成立营养智算公司 含AI业务</div>
+        <div class="s">【ST海王等成立营养智算公司 含AI业务】企查查APP显示，近日，深圳市海王营养智算有限公司成立，经营范围包含：互联网数据服务；人工智能应用软件开发；人工智能行业应用系统集成服务；货物进出口等。企查查股权穿透显示，该公司由ST海王等共同持股。</div>
+        <div class="m"><span>东方财富</span><span>09-10 10:25</span></div>
+      </div>
+      <div class="news-item" data-url="http://finance.eastmoney.com/a/202609103870358695.html">
+        <div class="t">美国ITC发布对智能电视的337部分终裁</div>
+        <div class="s">【美国ITC发布对智能电视的337部分终裁】据中国贸易救济信息网消息，2026年9月9日，美国国际贸易委员会（ITC）发布公告称，对特定智能电视作出337部分终裁，对本案行政法官于2026年8月13日作出的初裁（No.30）不予复审，即基于申请方撤回，部分终止本案调查。</div>
+        <div class="m"><span>东方财富</span><span>09-10 10:24</span></div>
+      </div>
+      <div class="news-item" data-url="http://finance.eastmoney.com/a/202609103870358423.html">
+        <div class="t">美国ITC发布对具有视频功能的电子设备 包括智能电视、显示器及其组件的337部分终裁</div>
+        <div class="s">【美国ITC发布对具有视频功能的电子设备，包括智能电视、显示器及其组件的337部分终裁】据中国贸易救济信息网消息，2026年9月9日，美国国际贸易委员会（ITC）发布公告称，对特定具有视频功能的电子设备，包括智能电视、显示器及其组件作出337部分终裁，对本案行政法官于2026年8月12日作出的初裁（No.17）不予复审，即DolbyLaboratories,Inc.成为第三人（intervene）。</div>
+        <div class="m"><span>东方财富</span><span>09-10 10:24</span></div>
+      </div>
+      <div class="news-item" data-url="http://finance.eastmoney.com/a/202609103870358188.html">
+        <div class="t">大鱼智行完成新一轮近亿元融资 同鑫资本领投</div>
+        <div class="s">【大鱼智行完成新一轮近亿元融资 同鑫资本领投】9月10日，智能轻出行企业大鱼智行宣布，近日完成Pre-B轮融资，金额达近亿元，由同鑫资本领投，多家机构跟投。据了解，本轮融资将主要用于核心产品平台研发、AI智能化技术升级、全球品牌建设及供应链能力提升。</div>
+        <div class="m"><span>东方财富</span><span>09-10 10:24</span></div>
+      </div>
+      <div class="news-item" data-url="http://finance.eastmoney.com/a/202609103870355788.html">
+        <div class="t">中国科学家首获世界顶尖科学家奖！单项奖金1000万</div>
+        <div class="s">【中国科学家首获世界顶尖科学家奖！单项奖金1000万】9月10日，2026世界顶尖科学家奖揭晓。顶科奖设立“智能科学或数学奖”“生命科学或医学奖”两个单项奖，单项奖金额为1000万元人民币，最多可由4人分享，为全球奖金金额最高的科学大奖之一。值得注意的是，今年“生命科学或医学奖”的4位获奖者中有3位华人科学家，其中邵峰成为奖项创办以来首位中国籍获奖者。</div>
+        <div class="m"><span>东方财富</span><span>09-10 10:24</span></div>
+      </div>
+      <div class="news-item" data-url="http://finance.eastmoney.com/a/202609103870355358.html">
+        <div class="t">船舶板块震荡走强 大连重工直线涨停</div>
+        <div class="s">船舶板块盘中震荡走强，大连重工直线涨停，中国船舶、中船防务、亚星锚链、中国动力、江龙船艇跟涨。</div>
+        <div class="m"><span>东方财富</span><span>09-10 10:22</span></div>
+      </div>
+      <div class="news-item" data-url="http://global.eastmoney.com/a/202609103870354697.html">
+        <div class="t">日本中部遭创纪录暴雨 致1死41人受伤</div>
+        <div class="s">【日本中部遭创纪录暴雨 致1死41人受伤】据共同社9月9日报道，连续多日的创纪录暴雨导致日本中部发生山体滑坡，已造成至少1人死亡，另有40多人受伤。暴雨导致名古屋市交通瘫痪，约3500人进入避难中心，约200辆汽车被淹，名古屋市有41人受伤。静冈县一名人员在加固边坡时被山体滑坡掩埋身亡。日本气象厅警告，受活跃锋面和热带低气压共同影响，日本大片地区仍将持续强降雨。气象厅提醒当地民众需警惕山体滑坡、洪水和河流上涨。</div>
+        <div class="m"><span>东方财富</span><span>09-10 10:20</span></div>
+      </div>
+      <div class="news-item" data-url="http://finance.eastmoney.com/a/202609103870354732.html">
+        <div class="t">北京AI产投基金入股中性原子量子计算公司向量奇点</div>
+        <div class="s">【北京AI产投基金入股中性原子量子计算公司向量奇点】企查查APP显示，近日，北京向量奇点科技有限公司发生工商变更，新增北京市人工智能产业投资基金（有限合伙）等多名股东，同时注册资本增至127.25万元。企查查信息显示，该公司成立于2026年5月，经营范围包含：人工智能应用软件开发；人工智能基础软件开发；人工智能硬件销售；人工智能基础资源与技术平台等。公开信息显示，向量奇点是一家中性原子量子计算企业。</div>
+        <div class="m"><span>东方财富</span><span>09-10 10:20</span></div>
+      </div>
+      <div class="news-item" data-url="http://global.eastmoney.com/a/202609103870354214.html">
+        <div class="t">美媒：多架美国军机在伊朗对约旦基地袭击中受损</div>
+        <div class="s">【美媒：多架美国军机在伊朗对约旦基地袭击中受损】据新华社援引美国媒体9日报道，多架美国军机在伊朗8日对约旦穆沃费格萨勒提空军基地的袭击中受损。</div>
+        <div class="m"><span>东方财富</span><span>09-10 10:20</span></div>
+      </div>
+      <div class="news-item" data-url="http://finance.eastmoney.com/a/202609103870349315.html">
+        <div class="t">深天马A：公司正推动柔性AMOLED技术在高端旗舰及折叠产品上的应用</div>
+        <div class="s">【深天马A：公司正推动柔性AMOLED技术在高端旗舰及折叠产品上的应用】深天马A(000050)9月9日在业绩说明会上表示，公司会把提升经营质量、改善盈利水平摆在首要位置，将坚定执行“2+1+N”发展战略。在车载显示领域，公司正加速在车载总成及车载新能源市场的渗透，构建更高的竞争壁垒；在消费类显示领域，公司正推动柔性AMOLED技术在高端旗舰及折叠产品上的应用，并积极向多元化场景拓展。</div>
+        <div class="m"><span>东方财富</span><span>09-10 10:16</span></div>
+      </div>
+      <div class="news-item" data-url="http://finance.eastmoney.com/a/202609103870348937.html">
+        <div class="t">思瑞浦：全系列光通信模拟芯片方案亮相 相关方案已完成客户验证</div>
+        <div class="s">【思瑞浦：全系列光通信模拟芯片方案亮相 相关方案已完成客户验证】思瑞浦官微消息，9月9日—11日，思瑞浦参加第27届中国国际光电博览会（CIOE中国光博会），展示面向光通信领域的模拟与数模混合芯片创新解决方案。展品覆盖800G/1.6T可插拔高速光模块方案（适配硅光、EML双技术路线）、CPO/NPO共封装光学与ELSFP外置光源量产级配套方案、OCS全光交换成套控制方案以及相干光模块与EDFA光放大全链路方案。</div>
+        <div class="m"><span>东方财富</span><span>09-10 10:15</span></div>
+      </div>
+      <div class="news-item" data-url="http://biz.eastmoney.com/a/202609103870349039.html">
+        <div class="t">浙商银行联合XTransfer发布全币种结算服务方案</div>
+        <div class="s">【浙商银行联合XTransfer发布全币种结算服务方案】浙商布局全球，浙银服务全程。9月9日，在第二届CIPS跨境银企合作专场活动（CEBEC）现场，浙商银行联合XTransfer（信汇宝有限公司）正式发布全币种结算服务方案，双方相关负责人及数十家出海企业代表出席发布会，共同见证了全球化支付结算服务的焕新升级。</div>
+        <div class="m"><span>东方财富</span><span>09-10 10:14</span></div>
+      </div>
+      <div class="news-item" data-url="http://finance.eastmoney.com/a/202609103870346313.html">
+        <div class="t">PCB概念震荡回升 四会富仕涨超10%</div>
+        <div class="s">PCB概念日内震荡回升，四会富仕涨超10%，金安国纪盘中逼近涨停，威尔高、鸿仕达、逸豪新材、超声电子涨幅靠前。</div>
+        <div class="m"><span>东方财富</span><span>09-10 10:13</span></div>
+      </div>
+      <div class="news-item" data-url="http://finance.eastmoney.com/a/202609103870343312.html">
+        <div class="t">淮北矿业：加快整合收储涡北、许疃、袁店一井等煤矿资源</div>
+        <div class="s">【淮北矿业：加快整合收储涡北、许疃、袁店一井等煤矿资源】淮北矿业9月10日在2026年半年度业绩说明会上表示，在煤炭主业未来规划方面，一是围绕现有煤矿开展资源增储，加快整合收储涡北、许疃、袁店一井等煤矿深部及界外资源；二是积极实施走出去战略，继续在晋陕蒙新等地开展煤炭资源调研，拟通过并购重组、合资合作、公开竞拍等方式获取省外优质煤炭资源，进一步增强煤炭主业发展后劲。</div>
+        <div class="m"><span>东方财富</span><span>09-10 10:12</span></div>
+      </div>
+      <div class="news-item" data-url="http://finance.eastmoney.com/a/202609103870341151.html">
+        <div class="t">九目化学、博迈医疗等3家公司IPO即将上会</div>
+        <div class="s">【九目化学、博迈医疗等3家公司IPO即将上会】根据深交所、上交所、北交所上市委会议公告，将有3家企业首发事项上会。从拟上市板来看，博迈医疗拟创业板IPO；九目化学、汉盛海装拟北交所IPO。</div>
+        <div class="m"><span>东方财富</span><span>09-10 10:11</span></div>
+      </div>
+      <div class="news-item" data-url="http://finance.eastmoney.com/a/202609103870334357.html">
+        <div class="t">156家企业558个产品投标第七批国家组织医用耗材集采</div>
+        <div class="s">【156家企业558个产品投标第七批国家组织医用耗材集采】9月10日9时30分，第七批国家组织医用耗材集中带量采购企业递交报价材料结束，共有156家企业的558个产品参与投标。现场进入唱标环节。</div>
+        <div class="m"><span>东方财富</span><span>09-10 10:07</span></div>
+      </div>
+      <div class="news-item" data-url="http://finance.eastmoney.com/a/202609103870332451.html">
+        <div class="t">我国在可穿戴电子国际标准化领域取得重要成果</div>
+        <div class="s">【我国在可穿戴电子国际标准化领域取得重要成果】记者今天了解到，国际电工委员会近日正式发布《可穿戴电子设备与技术前臂与手部穿戴表面肌电传感器测试方法》国际标准。该标准由我国专家提出并担任标准项目负责人，联合美国、英国、日本、韩国、芬兰等多国专家共同完成，填补了肌电传感类智能穿戴设备领域测试方法的国际标准空白，是我国在可穿戴电子国际标准化领域取得的重要成果。</div>
+        <div class="m"><span>东方财富</span><span>09-10 10:07</span></div>
+      </div>
+      <div class="news-item" data-url="http://finance.eastmoney.com/a/202609103870324578.html">
+        <div class="t">蓝色光标与AhaCreator达成深度合作</div>
+        <div class="s">【蓝色光标与AhaCreator达成深度合作】9月10日，蓝色光标与全球达人营销AI平台AhaCreator宣布达成深度合作。双方将共同推动全球达人营销从传统人工执行向AI驱动、人机协同转变，让分散的全球达人资源更高效地连接品牌需求，进一步提升达人营销业务的规模化执行效率。</div>
+        <div class="m"><span>东方财富</span><span>09-10 10:06</span></div>
+      </div>
+      <div class="news-item" data-url="http://bond.eastmoney.com/a/202609103870321540.html">
+        <div class="t">日本10年期国债收益率上升5个基点至2.93%</div>
+        <div class="s">日本10年期国债收益率上升5个基点至2.93%。</div>
+        <div class="m"><span>东方财富</span><span>09-10 10:06</span></div>
+      </div>
+      <div class="news-item" data-url="http://finance.eastmoney.com/a/202609103870313857.html">
+        <div class="t">淮北矿业：信湖煤矿复工以来生产平稳有序</div>
+        <div class="s">【淮北矿业：信湖煤矿复工以来生产平稳有序】淮北矿业9月10日在2026年半年度业绩说明会上表示，公司下属信湖煤矿于4月16日复工复产，复工以来生产平稳有序，公司全力做好矿井安全高效生产的保障工作，力争超额完成年度预算目标。</div>
+        <div class="m"><span>东方财富</span><span>09-10 10:06</span></div>
+      </div>
+      <div class="news-item" data-url="http://finance.eastmoney.com/a/202609103870311176.html">
+        <div class="t">港股恒生科技指数跌幅达2%</div>
+        <div class="s">港股恒生科技指数跌幅扩大至2%，恒生指数现跌1.16%。</div>
+        <div class="m"><span>东方财富</span><span>09-10 10:05</span></div>
+      </div>
+      <div class="news-item" data-url="http://finance.eastmoney.com/a/202609103870303658.html">
+        <div class="t">“国产GPU四小龙”资本会师 燧原科技9月11日上市</div>
+        <div class="s">【“国产GPU四小龙”资本会师 燧原科技9月11日上市】摩尔线程、沐曦股份由于股价波动在市场赚足眼球的同时，“国产GPU四小龙”之一的燧原科技（688801）上市日期也定了。9月9日晚间，燧原科技披露公告称，公司股票将于9月11日登陆科创板上市。在目前市场行情下，燧原科技上市首日的股价表现无疑将成为当日热点。</div>
+        <div class="m"><span>东方财富</span><span>09-10 10:04</span></div>
+      </div>
+      <div class="news-item" data-url="http://finance.eastmoney.com/a/202609103870316754.html">
+        <div class="t">培育钻石板块持续走低 黄河旋风跌超7%</div>
+        <div class="s">培育钻石板块持续走低，黄河旋风跌超7%，惠丰钻石、恒盛能源、四方达、奔朗新材等跟跌。</div>
+        <div class="m"><span>东方财富</span><span>09-10 10:04</span></div>
+      </div>
+      <div class="news-item" data-url="http://finance.eastmoney.com/a/202609103870307860.html">
+        <div class="t">4部影片定档2026国庆档</div>
+        <div class="s">【4部影片定档2026国庆档】据灯塔专业版，截至9月10日，已有4部影片定档2026年国庆档，分别为《小猪佩奇·完美假期》《野兽之心》《熊猫守护者》《活色生香》。</div>
+        <div class="m"><span>东方财富</span><span>09-10 10:03</span></div>
+      </div>
+      <div class="news-item" data-url="http://finance.eastmoney.com/a/202609103870293390.html">
+        <div class="t">苹果新品顶住涨价压力 华尔街却纷纷担忧利润率恐成麻烦</div>
+        <div class="s">【苹果新品顶住涨价压力 华尔街却纷纷担忧利润率恐成麻烦】苹果周三发布新品，包括iPhone18Pro系列以及备受市场关注的折叠屏手机iPhoneDuo。分析师对此次新品发布总体持乐观态度，但苹果股价可能仍被小幅高估。</div>
+        <div class="m"><span>东方财富</span><span>09-10 10:02</span></div>
+      </div>
+      <div class="news-item" data-url="http://finance.eastmoney.com/a/202609103870298116.html">
+        <div class="t">加拿大经济学家：加美贸易战源于美自身结构性困境</div>
+        <div class="s">【加拿大经济学家：加美贸易战源于美自身结构性困境】据新华社，加拿大经济学家朱利安·卡拉盖西安日前接受新华社记者专访时表示，当前加美贸易战的根源在于美国经济长期“去工业化”带来的内部结构性困境。关税手段不仅难以解决美自身赤字与债务难题，反而将对双方相关产业链造成深远伤害。</div>
+        <div class="m"><span>东方财富</span><span>09-10 10:02</span></div>
+      </div>
+      <div class="news-item" data-url="http://finance.eastmoney.com/a/202609103870297040.html">
+        <div class="t">1至8月4.99亿人次出入境 免签入境外国人同比上升26.8%</div>
+        <div class="s">【1至8月4.99亿人次出入境 免签入境外国人同比上升26.8%】记者从9月10日在江苏连云港召开的全球公共安全合作论坛（连云港）2026年大会移民管理合作分论坛上获悉，2026年1至8月，全国边检机关累计查验出入境人员4.99亿人次，同比上升8.7%；其中内地居民2.42亿人次、港澳台居民1.96亿人次、外国人6128.7万人次，同比分别上升10%、8.9%、19.5%。</div>
+        <div class="m"><span>东方财富</span><span>09-10 10:00</span></div>
+      </div>
+      <div class="news-item" data-url="http://finance.eastmoney.com/a/202609103870296775.html">
+        <div class="t">广电五舟：将在华为全联接大会上与华为联合发布新品</div>
+        <div class="s">【广电五舟：将在华为全联接大会上与华为联合发布新品】2026年9月17日—19日，第十一届华为全联接大会将在上海世博展览馆及世博中心举办。作为华为的鲲鹏整机合作伙伴，广电五舟将在本次峰会上与华为联合发布新品。</div>
+        <div class="m"><span>东方财富</span><span>09-10 10:00</span></div>
+      </div>
+      <div class="news-item" data-url="http://finance.eastmoney.com/a/202609103870297368.html">
+        <div class="t">英矽智能于Rentosertib的III期临床研究GENESIS-IPF-3完成首例患者给药</div>
+        <div class="s">【英矽智能于Rentosertib的III期临床研究GENESIS-IPF-3完成首例患者给药】9月10日，英矽智能宣布，Rentosertib III期临床试验已在中国北京协和医院完成首例患者入组并给药，同日上海市肺科医院也完成首例患者入组。该项III期临床试验是一项前瞻性、多中心、随机、双盲、安慰剂对照、平行组研究，旨在系统评估每日一次口服Rentosertib持续给药52周的疗效与安全性。</div>
+        <div class="m"><span>东方财富</span><span>09-10 09:58</span></div>
+      </div>
+      <div class="news-item" data-url="http://finance.eastmoney.com/a/202609103870295252.html">
+        <div class="t">油价“破百”背后：胡塞武装正猛烈攻击沙特！</div>
+        <div class="s">【油价“破百”背后：胡塞武装正猛烈攻击沙特！】在油价再度“破百”之际，眼下牵动原油市场神经的消息，除了美伊在霍尔木兹海峡相互袭击油轮，还有一幕或许更为令人感到揪心：由伊朗支持的也门胡塞武装正对沙特阿拉伯发动近年来最大规模的袭击，这将该武装组织与沙特的冲突推向了新的高度。</div>
+        <div class="m"><span>东方财富</span><span>09-10 09:58</span></div>
+      </div>
+      <div class="news-item" data-url="http://finance.eastmoney.com/a/202609103870296470.html">
+        <div class="t">海南机场集团与航科院签署战略合作协议</div>
+        <div class="s">【海南机场集团与航科院签署战略合作协议】9月9日，海南控股旗下海南机场集团有限公司与中国民航科学技术研究院在北京航科院签署战略合作框架协议。双方将围绕科技创新协同与应用、人工智能赋能机场高质量发展、法规标准研究、全链条技术服务与临空产业、人才交流及联合创新平台建设等方向深化合作，推动项目务实落地。</div>
+        <div class="m"><span>东方财富</span><span>09-10 09:57</span></div>
+      </div>
+      <div class="news-item" data-url="http://finance.eastmoney.com/a/202609103870290125.html">
+        <div class="t">银行板块震荡走强 多家银行股价创历史新高</div>
+        <div class="s">【银行板块震荡走强 多家银行股价创历史新高】银行板块震荡走强，江苏银行、南京银行、成都银行、杭州银行齐创历史新高。</div>
+        <div class="m"><span>东方财富</span><span>09-10 09:56</span></div>
+      </div>
+      <div class="news-item" data-url="http://global.eastmoney.com/a/202609103870281411.html">
+        <div class="t">欧洲议会下周将就休达移民危机展开辩论</div>
+        <div class="s">【欧洲议会下周将就休达移民危机展开辩论】当地时间9月9日，欧洲议会决定下周就西班牙飞地休达移民危机展开辩论，欧洲议会主要党团围绕西班牙政府应对危机的方式以及欧盟移民政策存在分歧。</div>
+        <div class="m"><span>东方财富</span><span>09-10 09:53</span></div>
+      </div>
+      <div class="news-item" data-url="http://finance.eastmoney.com/a/202609103870279713.html">
+        <div class="t">高德CEO郭宁：AI时代最稀缺的是理解真实世界的能力</div>
+        <div class="s">【高德CEO郭宁：AI时代最稀缺的是理解真实世界的能力】9月10日，阿里巴巴集团旗下高德发布了高德扫街榜2026。高德CEO郭宁表示，AI时代生成答案越来越容易，真正稀缺的是理解真实世界的能力。基于空间智能，高德将重塑扫街体验，把服务延伸至用户的决策、出发和到达等全链路。</div>
+        <div class="m"><span>东方财富</span><span>09-10 09:53</span></div>
+      </div>
+      <div class="news-item" data-url="http://bond.eastmoney.com/a/202609103870274252.html">
+        <div class="t">第七、八期电子式储蓄国债今起发行</div>
+        <div class="s">【第七、八期电子式储蓄国债今起发行】从今天开始，财政部将发行今年第七期和第八期电子式储蓄国债。其中，第七期期限3年，票面年利率为1.63%，最大发行额248亿元；第八期期限5年，票面年利率为1.7%，最大发行额302亿元。投资者可通过银行网点柜面和已开通的电子渠道购买，单一国债账户购买每期国债不得超过50万元。</div>
+        <div class="m"><span>东方财富</span><span>09-10 09:53</span></div>
+      </div>
+      <div class="news-item" data-url="http://finance.eastmoney.com/a/202609103870267354.html">
+        <div class="t">CPO概念震荡走强 环旭电子涨停</div>
+        <div class="s">CPO概念震荡走强，环旭电子涨停，天孚通信、蘅东光、仕佳光子、太辰光、光库科技等涨幅靠前。</div>
+        <div class="m"><span>东方财富</span><span>09-10 09:53</span></div>
+      </div>
+      <div class="news-item" data-url="http://finance.eastmoney.com/a/202609103870276666.html">
+        <div class="t">高德回应“扫雷榜”传闻：正式发布“避雷指南1.0”</div>
+        <div class="s">【高德回应“扫雷榜”传闻：正式发布“避雷指南1.0”】9月10日，针对此前外界流传的“扫雷榜”传闻，高德扫街榜宣布上线“避雷指南1.0”。该功能可对用户的出行计划或攻略进行时空推演，从营业时间、行程节奏、停车提示、拥挤预测等15个维度，帮用户提前预判白跑、堵车、行程延误等出行体验风险。</div>
+        <div class="m"><span>东方财富</span><span>09-10 09:52</span></div>
+      </div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== 热点 ==================== -->
+    <section class="view" id="view-hot">
+      <div class="grid-hot">
+        <div class="col">
+          <div class="panel" style="flex:1.1">
+            <div class="panel-head">
+              <h3>板块热度</h3>
+              <div class="chips" id="hotPlateKind">
+                <button class="chip active" data-kind="industry">行业</button>
+                <button class="chip" data-kind="concept">概念</button>
+              </div>
+            </div>
+            <div class="chart-main"><div id="hotPlateChart" class="chart-box"></div></div>
+          </div>
+          <div class="panel" style="flex:1">
+            <div class="panel-head"><h3>主力资金流</h3><span class="sub">MAIN CAPITAL</span></div>
+            <div class="panel-body tight">
+              <table class="data">
+                <thead><tr><th>名称</th><th>最新</th><th>涨跌幅</th><th>主力净额</th></tr></thead>
+                <tbody id="flowBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div class="col">
+          <div class="panel" style="flex:1">
+            <div class="panel-head"><h3>龙虎榜单 · 涨幅 TOP</h3><span class="sub">TOP GAINERS</span></div>
+            <div class="panel-body tight">
+              <table class="data">
+                <thead><tr><th>名称</th><th>最新</th><th>涨跌幅</th><th>成交额</th></tr></thead>
+                <tbody id="hotRankBody"></tbody>
+              </table>
+            </div>
+          </div>
+          <div class="panel" style="flex:1">
+            <div class="panel-head"><h3>跌幅榜</h3><span class="sub">TOP LOSERS</span></div>
+            <div class="panel-body tight">
+              <table class="data">
+                <thead><tr><th>名称</th><th>最新</th><th>涨跌幅</th><th>成交额</th></tr></thead>
+                <tbody id="hotLoserBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <div class="col">
+          <div class="panel" style="flex:1">
+            <div class="panel-head">
+              <h3>7×24 资讯流</h3>
+              <div class="chips" id="newsKind">
+                <button class="chip active" data-col="flash">快讯</button>
+                <button class="chip" data-col="yaowen">要闻</button>
+                <button class="chip" data-col="stock">股市</button>
+              </div>
+            </div>
+            <div class="panel-body" id="hotNewsList"><div class="empty">加载中…</div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== 聚焦 ==================== -->
+    <section class="view" id="view-focus">
+      <div class="col" style="height:100%">
+        <div class="panel" style="flex:0 0 auto">
+          <div class="panel-head">
+            <h3>我的聚焦池</h3>
+            <div style="display:flex;gap:8px;align-items:center">
+              <span class="sub" id="focusCount">0 支</span>
+              <button class="chip active" id="focusRefresh">实时刷新中</button>
+            </div>
+          </div>
+          <div class="panel-body tight"><div class="focus-grid" id="focusGrid"></div></div>
+        </div>
+        <div class="panel" style="flex:1">
+          <div class="panel-head">
+            <h3>走势对比（归一化收益）</h3>
+            <div class="chips" id="cmpRange">
+              <button class="chip" data-r="20">近1月</button>
+              <button class="chip active" data-r="60">近3月</button>
+              <button class="chip" data-r="120">近6月</button>
+              <button class="chip" data-r="250">近1年</button>
+            </div>
+          </div>
+          <div class="chart-main"><div id="cmpChart" class="chart-box"></div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== 基金 ==================== -->
+    <section class="view" id="view-fund">
+      <div class="grid-fund">
+        <div class="col">
+          <div class="panel" style="flex:1">
+            <div class="panel-head"><h3>我的基金</h3><span class="sub" id="fundWlCount">0 支</span></div>
+            <div class="panel-body tight"><div class="list" id="fundWatchList"><div class="empty">暂无自选基金<br>在顶部搜索基金代码/名称，或点击排行列表</div></div></div>
+          </div>
+          <div class="panel" style="flex:1.3">
+            <div class="panel-head">
+              <h3>基金排行</h3>
+              <div class="chips" id="fundRankKind">
+                <button class="chip active" data-k="all">全部</button>
+                <button class="chip" data-k="gp">股票型</button>
+                <button class="chip" data-k="hh">混合型</button>
+                <button class="chip" data-k="zq">债券型</button>
+                <button class="chip" data-k="zs">指数型</button>
+                <button class="chip" data-k="qdii">QDII</button>
+              </div>
+            </div>
+            <div class="panel-body tight">
+              <table class="data">
+                <thead><tr><th>基金名称</th><th>净值</th><th>日涨幅</th><th>近1年</th></tr></thead>
+                <tbody id="fundRankBody"></tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+          <div class="panel" style="flex:1">
+            <div class="fund-head" id="fundHead">
+              <div class="fund-title" id="fundName">--</div>
+              <div class="fund-sub" id="fundSub">--</div>
+              <div class="kpi-grid" id="fundKpi"></div>
+            </div>
+            <div class="panel-head" style="border-top:1px solid rgba(255,255,255,.05)">
+              <div class="chips" id="fundNavRange">
+                <button class="chip" data-r="30">近1月</button>
+                <button class="chip" data-r="90">近3月</button>
+                <button class="chip active" data-r="180">近6月</button>
+                <button class="chip" data-r="365">近1年</button>
+                <button class="chip" data-r="0">成立以来</button>
+              </div>
+              <div class="chips"><button class="chip" id="fundFavBtn">+ 自选基金</button></div>
+            </div>
+            <div class="chart-main"><div id="fundChart" class="chart-box" _echarts_instance_="ec_1789007563476" style="user-select: none; -webkit-tap-highlight-color: rgba(0, 0, 0, 0);"><div style="position: relative; width: 100px; height: 100px; padding: 0px; margin: 0px; border-width: 0px;"></div></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+</div>
+
+<div class="toast" id="toast"></div>
+<script src="static/mobile-api.js"></script>
+<script src="static/echarts.min.js"></script>
+<script src="static/app.js"></script>
+
+
+</body></html>

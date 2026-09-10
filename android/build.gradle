@@ -9,10 +9,7 @@ buildscript {
 }
 
 allprojects {
-    repositories {
-        google()
-        mavenCentral()
-    }
+    // 仓库统一由 settings.gradle 的 dependencyResolutionManagement 提供
 }
 
 tasks.register('clean', Delete) {
